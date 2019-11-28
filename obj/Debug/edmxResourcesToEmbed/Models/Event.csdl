@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EventModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="EventInfo">
+    <Key>
+      <PropertyRef Name="EventId" />
+    </Key>
+    <Property Name="EventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EventName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EventTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EventDate" Type="DateTime" Precision="3" />
+    <Property Name="EventDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="EventAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EventCity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EventState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EventImage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="NoOfSeats" Type="Int32" />
+    <NavigationProperty Name="UserInfo" Relationship="Self.FK__EventInfo__NoOfS__1273C1CD" FromRole="EventInfo" ToRole="UserInfo" />
+  </EntityType>
+  <EntityType Name="UserInfo">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UserAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="UserAge" Type="Int32" />
+    <Property Name="UserImage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="EventInfoes" Relationship="Self.FK__EventInfo__NoOfS__1273C1CD" FromRole="UserInfo" ToRole="EventInfo" />
+  </EntityType>
+  <Association Name="FK__EventInfo__NoOfS__1273C1CD">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+    <End Role="EventInfo" Type="Self.EventInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="EventInfo">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EventEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="EventInfoes" EntityType="Self.EventInfo" />
+    <EntitySet Name="UserInfoes" EntityType="Self.UserInfo" />
+    <AssociationSet Name="FK__EventInfo__NoOfS__1273C1CD" Association="Self.FK__EventInfo__NoOfS__1273C1CD">
+      <End Role="UserInfo" EntitySet="UserInfoes" />
+      <End Role="EventInfo" EntitySet="EventInfoes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EventModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="EventInfo">
+    <Key>
+      <PropertyRef Name="EventId" />
+    </Key>
+    <Property Name="EventId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EventName" Type="varchar" MaxLength="100" />
+    <Property Name="EventTime" Type="varchar" MaxLength="50" />
+    <Property Name="EventDate" Type="datetime" />
+    <Property Name="EventDesc" Type="varchar" MaxLength="200" />
+    <Property Name="EventAddress" Type="varchar" MaxLength="100" />
+    <Property Name="EventCity" Type="varchar" MaxLength="50" />
+    <Property Name="EventState" Type="varchar" MaxLength="50" />
+    <Property Name="EventImage" Type="varchar" MaxLength="100" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="NoOfSeats" Type="int" />
+  </EntityType>
+  <EntityType Name="UserInfo">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" />
+    <Property Name="UserEmail" Type="varchar" MaxLength="50" />
+    <Property Name="UserPassword" Type="varchar" MaxLength="50" />
+    <Property Name="UserAddress" Type="varchar" MaxLength="200" />
+    <Property Name="UserAge" Type="int" />
+    <Property Name="UserImage" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK__EventInfo__NoOfS__1273C1CD">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+    <End Role="EventInfo" Type="Self.EventInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="EventInfo">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EventModelStoreContainer">
+    <EntitySet Name="EventInfo" EntityType="Self.EventInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__EventInfo__NoOfS__1273C1CD" Association="Self.FK__EventInfo__NoOfS__1273C1CD">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="EventInfo" EntitySet="EventInfo" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
